@@ -8,32 +8,43 @@ const leftScore = ref(0);
 const rightScore = ref(0);
 
 function play() {
-  const choices = ['ค้อน', 'กระดาษ', 'กรรไกร'];
-  const randomIndex = Math.floor(Math.random() * 3);
+  const choices = ['ค้อน', 'กระดาษ', 'กรรไกร', 'ความรัก'];
+  const randomIndex = Math.floor(Math.random() * choices.length);
   const Right = choices[randomIndex];
-  
-  const LeftRandomIndex = Math.floor(Math.random() * 3);
+
+  const LeftRandomIndex = Math.floor(Math.random() * choices.length);
   const Left = choices[LeftRandomIndex];
 
   RightChoice.value = Right;
   LeftChoice.value = Left;
-  result.value = ''; 
+  result.value = '';
 
-  
-  if (Left === Right) {
-    result.value = "เสมอ";
+  if (Left === 'ความรัก' && Right === 'ความรัก') {
+    result.value = 'เสมอ';
+  } else if (Left === 'ความรัก') {
+    result.value = 'ความรักชนะทุกอย่าง !!!!';
+    leftScore.value += 1; 
+  } else if (Right === 'ความรัก') {
+    result.value = 'ความรักชนะทุกอย่าง !!!!';
+    rightScore.value += 1;
   } else if (
-    (Left === 'ค้อน' && Right === 'กรรไกร') ||
-    (Left === 'กระดาษ' && Right === 'ค้อน') ||
-    (Left === 'กรรไกร' && Right === 'กระดาษ')
+    (Left === 'ค้อน' && (Right === 'กรรไกร' || Right === 'ความรัก')) ||
+    (Left === 'กระดาษ' && (Right === 'ค้อน' || Right === 'ความรัก')) ||
+    (Left === 'กรรไกร' && (Right === 'กระดาษ' || Right === 'ความรัก'))
   ) {
     result.value = 'ฝั่งซ้ายชนะ !!!!';
-    leftScore.value += 1; 
+    leftScore.value += 1;
+  } else if (Left === Right) {
+    result.value = 'เสมอ';
   } else {
     result.value = 'ฝั่งขวาชนะ !!!!';
-    rightScore.value += 1; 
+    rightScore.value += 1;
   }
 }
+
+
+
+
 
 function reset() {
   RightChoice.value = '';
@@ -59,6 +70,7 @@ function reset() {
         <img v-if="LeftChoice === 'ค้อน'" src="./assets/rock.png" alt="ค้อน">
         <img v-if="LeftChoice === 'กระดาษ'" src="./assets/paper.png" alt="กระดาษ">
         <img v-if="LeftChoice === 'กรรไกร'" src="./assets/scissors.png" alt="กรรไกร">
+        <img v-if="LeftChoice === 'ความรัก'" src="./assets/luv.png" alt="ความรัก">
       </div>
 
       <div class="Right-choice">
@@ -67,6 +79,7 @@ function reset() {
         <img v-if="RightChoice === 'ค้อน'" src="./assets/rock.png" alt="ค้อน">
         <img v-if="RightChoice === 'กระดาษ'" src="./assets/paper.png" alt="กระดาษ">
         <img v-if="RightChoice === 'กรรไกร'" src="./assets/scissors.png" alt="กรรไกร">
+        <img v-if="RightChoice === 'ความรัก'" src="./assets/luv.png" alt="ความรัก">
       </div>
     </div>
 
